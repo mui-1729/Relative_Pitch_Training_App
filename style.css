@@ -30,6 +30,7 @@ body {
 }
 
 .container {
+  position: relative; /* 子要素を絶対配置するための基準 */
   background-color: var(--white);
   padding: 2rem;
   border-radius: 12px;
@@ -37,6 +38,7 @@ body {
   max-width: 720px;
   width: 100%;
   box-sizing: border-box;
+  padding-bottom: 5rem; /* ボタンが他の要素に重ならないように余白を追加 */
 }
 
 h1 {
@@ -75,6 +77,14 @@ button:hover {
   background-color: var(--secondary-hover-color);
   border-color: var(--secondary-hover-color);
   color: var(--white);
+}
+
+/* 選択されたボタンのスタイル */
+button.selected {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--white);
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 button#startAudio {
@@ -130,4 +140,23 @@ input {
   margin-top: 1.5rem;
   font-size: 0.95rem;
   color: var(--text-muted);
+}
+
+#choices-container {
+  margin-bottom: 1.5rem;
+}
+
+#submitChord {
+  margin-top: 1rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+/* 「次の問題」ボタンのスタイル */
+#next {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--primary-color);
+  color: var(--white);
 }

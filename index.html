@@ -10,22 +10,29 @@
     <div class="container">
       <h1>相対音感トレーナー</h1>
       <p>
-        1音目をルート、2音目を聴いてインターバルを当ててください。 まず
+        音を聴いてインターバルやコードの構成音を当てるトレーニングです。 まず
         <strong>「Start Audio」</strong> を押してから始めてください。
       </p>
 
       <div class="row">
         <button id="startAudio">Start Audio</button>
-        <button id="playPair">再生（2音）</button>
+        <button id="playPair">再生</button>
         <button id="playRoot">ルートのみ</button>
-        <button id="playInterval">2音目のみ</button>
-        <button id="next">次の問題</button>
+        <button id="playInterval" data-mode="interval">2音目のみ</button>
       </div>
 
-      <div class="row">
+      <div class="row" id="settings">
+        <label
+          >ゲームモード：
+          <select id="gameMode">
+            <option value="interval">インターバル当て</option>
+            <option value="chord_tone">コード構成音当て</option>
+          </select>
+        </label>
+
         <label
           >方向：
-          <select id="direction">
+          <select id="direction" data-mode="interval">
             <option value="up">上行（ルート → 高い音）</option>
             <option value="down">下行（ルート → 低い音）</option>
             <option value="either">ランダム（上/下）</option>
@@ -58,6 +65,14 @@
             <option value="fix_current">現在の音を固定</option>
           </select></label
         >
+
+        <label
+          >再生方法：
+          <select id="playbackType" data-mode="interval">
+            <option value="melodic">メロディ（順次）</option>
+            <option value="harmonic">ハーモニー（和音）</option>
+          </select></label
+        >
       </div>
 
       <div
@@ -65,13 +80,18 @@
         style="margin-bottom: 1.5rem; font-size: 1rem; color: var(--text-color)"
       ></div>
 
-      <div id="choices" class="row"></div>
+      <div id="choices-container">
+        <div id="choices" class="row"></div>
+        <button id="submitChord" style="display: none">こたえあわせ</button>
+      </div>
 
       <div id="feedback" class="result" aria-live="polite"></div>
 
       <div class="stat" id="stats">正答数: 0 / 問数: 0 （正答率: 0%）</div>
+      <button id="next">次の問題</button>
     </div>
 
+    <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
     <script src="script.js" defer></script>
   </body>
 </html>
