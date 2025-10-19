@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build
-        run: npm run build
+      - name: Build with Jekyll
+        run: bundle exec jekyll build
       - uses: actions/upload-pages-artifact@v2
         with:
-          path: './public' # ここが公開したいフォルダ
+          path: './public'
       - uses: actions/deploy-pages@v4
