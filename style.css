@@ -1,0 +1,133 @@
+:root {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --secondary-color: #6c757d;
+  --secondary-hover-color: #5a6268;
+  --success-bg: #e6ffed;
+  --success-border: #9de7b8;
+  --danger-bg: #fff0f0;
+  --danger-border: #f1b3b3;
+  --light-bg: #f8f9fa;
+  --white: #fff;
+  --border-color: #dee2e6;
+  --text-color: #212529;
+  --text-muted: #6c757d;
+  --font-family:
+    system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic",
+    sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.container {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 720px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+p {
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--secondary-color);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+button:hover {
+  background-color: var(--secondary-hover-color);
+  border-color: var(--secondary-hover-color);
+  color: var(--white);
+}
+
+button#startAudio {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--white);
+  font-weight: 500;
+}
+
+button#startAudio:hover {
+  background-color: var(--primary-hover-color);
+  border-color: var(--primary-hover-color);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+.correct {
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+}
+
+.wrong {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+select,
+input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+}
+
+.stat {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}

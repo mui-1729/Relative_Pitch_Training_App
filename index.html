@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>相対音感トレーナー</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>相対音感トレーナー</h1>
+      <p>
+        1音目をルート、2音目を聴いてインターバルを当ててください。 まず
+        <strong>「Start Audio」</strong> を押してから始めてください。
+      </p>
+
+      <div class="row">
+        <button id="startAudio">Start Audio</button>
+        <button id="playPair">再生（2音）</button>
+        <button id="playRoot">ルートのみ</button>
+        <button id="playInterval">2音目のみ</button>
+        <button id="next">次の問題</button>
+      </div>
+
+      <div class="row">
+        <label
+          >方向：
+          <select id="direction">
+            <option value="up">上行（ルート → 高い音）</option>
+            <option value="down">下行（ルート → 低い音）</option>
+            <option value="either">ランダム（上/下）</option>
+          </select>
+        </label>
+
+        <label
+          >最大半音数：
+          <select id="maxSemitones">
+            <option value="12">12(オクターブ)</option>
+            <option value="7">7(完全5度まで)</option>
+            <option value="4">4(長3度まで)</option>
+          </select>
+        </label>
+
+        <label
+          >音色：
+          <select id="wave">
+            <option value="sine">sine（純音）</option>
+            <option value="triangle">triangle</option>
+            <option value="square">square</option>
+            <option value="sawtooth">sawtooth</option>
+          </select>
+        </label>
+
+        <label
+          >ルート音：
+          <select id="rootNoteSetting">
+            <option value="random">ランダム</option>
+            <option value="fix_current">現在の音を固定</option>
+          </select></label
+        >
+      </div>
+
+      <div
+        id="rootInfo"
+        style="margin-bottom: 1.5rem; font-size: 1rem; color: var(--text-color)"
+      ></div>
+
+      <div id="choices" class="row"></div>
+
+      <div id="feedback" class="result" aria-live="polite"></div>
+
+      <div class="stat" id="stats">正答数: 0 / 問数: 0 （正答率: 0%）</div>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
