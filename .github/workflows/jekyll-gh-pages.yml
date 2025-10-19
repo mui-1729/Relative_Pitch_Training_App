@@ -1,0 +1,15 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: npm run build
+      - uses: actions/upload-pages-artifact@v2
+        with:
+          path: './public' # ここが公開したいフォルダ
+      - uses: actions/deploy-pages@v4
