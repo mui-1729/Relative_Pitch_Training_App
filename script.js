@@ -41,6 +41,46 @@
       intervals: [0, 3, 7], // ルート, 短3度, 完全5度
       toneNames: ["ルート", "短3度", "完全5度"],
     },
+    major7: {
+      name: "メジャーセブンス",
+      intervals: [0, 4, 7, 11], // R, M3, P5, M7
+      toneNames: ["ルート", "長3度", "完全5度", "長7度"],
+    },
+    minor7: {
+      name: "マイナーセブンス",
+      intervals: [0, 3, 7, 10], // R, m3, P5, m7
+      toneNames: ["ルート", "短3度", "完全5度", "短7度"],
+    },
+    dominant7: {
+      name: "ドミナントセブンス",
+      intervals: [0, 4, 7, 10], // R, M3, P5, m7
+      toneNames: ["ルート", "長3度", "完全5度", "短7度"],
+    },
+    diminished7: {
+      name: "ディミニッシュセブンス",
+      intervals: [0, 3, 6, 9], // R, m3, d5, d7
+      toneNames: ["ルート", "短3度", "減5度", "減7度"],
+    },
+    halfDiminished7: {
+      name: "ハーフディミニッシュ (m7b5)",
+      intervals: [0, 3, 6, 10], // R, m3, d5, m7
+      toneNames: ["ルート", "短3度", "減5度", "短7度"],
+    },
+    major9: {
+      name: "メジャーナインス",
+      intervals: [0, 4, 7, 11, 14], // R, M3, P5, M7, M9
+      toneNames: ["ルート", "長3度", "完全5度", "長7度", "長9度"],
+    },
+    minor9: {
+      name: "マイナーナインス",
+      intervals: [0, 3, 7, 10, 14], // R, m3, P5, m7, M9
+      toneNames: ["ルート", "短3度", "完全5度", "短7度", "長9度"],
+    },
+    dominant9: {
+      name: "ドミナントナインス",
+      intervals: [0, 4, 7, 10, 14], // R, M3, P5, m7, M9
+      toneNames: ["ルート", "長3度", "完全5度", "短7度", "長9度"],
+    },
   };
 
   // Tone.jsのサンプラーを準備し、ピアノ音源を読み込む
@@ -136,9 +176,27 @@
         direction: dir,
       };
     } else if (gameMode === "chord_tone") {
-      const chordKeys = Object.keys(chordTypes);
+      const complexity = document.getElementById("chordComplexity").value;
+      let availableChordKeys = Object.keys(chordTypes);
+
+      if (complexity === "triad") {
+        availableChordKeys = availableChordKeys.filter(
+          (key) => chordTypes[key].intervals.length === 3
+        );
+      } else if (complexity === "seventh") {
+        availableChordKeys = availableChordKeys.filter(
+          (key) => chordTypes[key].intervals.length === 4
+        );
+      } else if (complexity === "ninth") {
+        availableChordKeys = availableChordKeys.filter(
+          (key) => chordTypes[key].intervals.length === 5
+        );
+      }
+
       const randomChordKey =
-        chordKeys[Math.floor(Math.random() * chordKeys.length)];
+        availableChordKeys[
+          Math.floor(Math.random() * availableChordKeys.length)
+        ];
       const chord = chordTypes[randomChordKey];
 
       current = {
@@ -160,7 +218,7 @@
       if (gameMode === "interval") {
         text = `🎵 ルート音：${name}`;
       } else if (gameMode === "chord_tone") {
-        text = `🎵 コードの構成音を選んでください。`;
+        text = `🎵 ${name} ${current.chord.name}コードの構成音を選んでください。`;
       }
     }
     document.getElementById("rootInfo").innerHTML = text;
@@ -321,23 +379,24 @@
     }
   }
 
-  document.getElementById("startAudio").addEventListener(
-    "click",
-    (event) => {
-      Tone.start(); // ユーザー操作をきっかけにAudioContextを開始
+  let audioContextStarted = false; // オーディオコンテキストが開始されたかを追跡するフラグ
 
-      // 最初の問題生成と表示をここで行う
-      generateQuestion();
-      renderChoices(
-        parseInt(document.getElementById("maxSemitones").value, 10)
-      );
-      showRootInfo();
+  document.getElementById("startAudio").addEventListener("click", (event) => {
+    if (!audioContextStarted) {
+      Tone.start(); // オーディオコンテキストは初回クリック時のみ開始
+      audioContextStarted = true;
+      // 初回クリック後、ボタンのテキストを新しい役割に合わせて変更
+      event.target.textContent = "新しい問題 / 設定を適用";
+    }
 
-      event.target.textContent = "Audio Ready";
-      event.target.disabled = true; // ボタンを無効化する
-    },
-    { once: true }
-  ); // イベントを一度しか実行しないように設定
+    // 現在の設定に基づいて新しい問題を生成し、UIを更新
+    generateQuestion();
+    renderChoices(parseInt(document.getElementById("maxSemitones").value, 10));
+    showRootInfo();
+
+    // ボタンは常に有効な状態を保ち、再度クリックできるようにする
+    event.target.disabled = false;
+  });
 
   function populateRootNoteSelector() {
     const select = document.getElementById("rootNoteSetting");
@@ -375,6 +434,11 @@
     renderChoices(parseInt(document.getElementById("maxSemitones").value, 10));
     showRootInfo();
   }
+
+  // コード種類の変更時にもUIを更新
+  document
+    .getElementById("chordComplexity")
+    .addEventListener("change", updateUIForGameMode);
 
   document
     .getElementById("gameMode")
